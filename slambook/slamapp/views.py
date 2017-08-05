@@ -13,8 +13,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
 from slamapp.safe import mymail,mypassword
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from django.http import HttpResponse
 
@@ -27,7 +27,7 @@ def signup(request):
 
         hash = hashlib.sha1()
         now = datetime.datetime.now()
-        hash.update(str(now) + usermail + 'ikbal_is_worst')
+        hash.update(str(now).encode('utf-8') + usermail.encode('utf-8') + 'kuttu'.encode('utf-8'))
         tp = hash.hexdigest()
 
         fromaddr = mymail
@@ -60,17 +60,16 @@ def signup(request):
 
 def registration(request,p):
     if request.method=='POST':
-        print p
+        print (p)
         upass=request.POST.get('upass')
         upass1=request.POST.get('upass1')
         # pic = request.FILES['pic']
-        print "TRUE"
+        print ("TRUE")
         if upass==upass1:
             up=User.objects.get(password=p)
-            print up
+            print (up)
 
             up.set_password(upass)
-            print up.password
             up.save()
 
             return HttpResponse("DONE")
@@ -80,7 +79,7 @@ def registration(request,p):
 
     else:
         up=User.objects.get(password=p)
-        print up
+        print (up)
         return render(request,'changepass.html',{ 'p':p })
 
 
@@ -91,10 +90,10 @@ def login_site(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        print username
-        print password
+
         user = authenticate(username=username, password=password)
-        print user
+        print (user)
+
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
