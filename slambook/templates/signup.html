@@ -1,0 +1,33 @@
+<html>
+<header>
+  {% load static %}
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+<style>
+  .input-field{
+    color:#9e9e9e;
+  }
+</style>
+<head>
+  <title>Institute Registration</title>
+</head>
+<body>
+<div >
+  <div >
+  <form class="register-form" method="POST" action="/signup/">
+  {% csrf_token %}
+      <input type="email" placeholder="Email address" name="usermail" />
+
+      <button>Sign Up</button>
+    </form>
+    </div>
+</div>
+</body>
+</html>

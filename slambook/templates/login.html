@@ -1,0 +1,43 @@
+<html>
+<head>
+	{% load static %}
+
+
+</head>
+<style>
+	body {
+		background: #e2e1e0;
+		text-align: center;
+	}
+</style>
+<body>
+
+{% if error %}
+	<p>Error: {{ error }}</p>
+
+{% endif %}
+
+
+{% if authenticated %}
+	You are logged in as: {{ username }}
+
+	<form method="POST" action="/logout/" class="login-form">
+		{% csrf_token %}
+		<input type='submit' value='Logout'/>
+	</form>
+{% else %}
+
+<div class="login-page">
+	<div class="form">
+	<form method="POST" action="/login/" class="login-form">
+		{% csrf_token %}
+		 <input name='username' type='text' placeholder='Enter Username'/> <br/>
+		 <input name='password' type='password' placeholder='Enter Password'/><br/>
+		<button  id="submitButton" type='submit' value='Login'>Login</button>
+	</form>
+</div>
+</div>
+{% endif %}
+
+</body>
+</html>

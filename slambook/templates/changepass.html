@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+{% load static %}
+<body>
+	<div >
+	<div >
+   <form method="POST" action="/{{p}}/registration/">
+
+{% csrf_token %}
+	<input type="password" name="upass" placeholder="New Password">
+	<input type="password" name="upass1" placeholder="Confirm New Password">
+	<button type="submit">Submit</button>
+</form>
+</div>
+</div>
+</body>
+</html>
