@@ -25,7 +25,7 @@ SECRET_KEY = 'nnz&w^m9z7kg##+e4af*j$@l7(zuf!_y3e%qe03ul3^dzpj#nb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -124,17 +124,35 @@ SETTINGS_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 
-STATIC_PATH = os.path.join(PROJECT_PATH, 'slambook/static')
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'slambook/media')
+# STATIC_PATH = os.path.join(PROJECT_PATH, 'slambook/static')
+# MEDIA_ROOT = os.path.join(PROJECT_PATH, 'slambook/media')
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATICFILES_DIRS = (
-    STATIC_PATH,
-)
+# STATICFILES_DIRS = (
+#     STATIC_PATH,
+# )
 
-TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'slambook/templates')
+# TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'slambook/templates')
 
 
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'slambook/staticfiles')
+
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'slambook/staticfiles')
+# STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static")
+# ]
+# MEDIA_ROOT = os.path.join(BASE_DIR,'MEDIA')
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'slambook/staticfiles')
 STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
+MEDIA_ROOT = os.path.join(BASE_DIR,'MEDIA')

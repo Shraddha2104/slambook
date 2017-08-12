@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from slamapp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,4 +26,8 @@ urlpatterns = [
     url(r'^(?P<p>[\w\-\_]+)/registration/$',views.registration),
     url(r'^login/', views.login_site),
     url(r'^logout/', views.logout_site),
-]
+
+
+    url(r'^profile/', views.profile),
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

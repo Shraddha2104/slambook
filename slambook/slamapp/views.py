@@ -125,3 +125,8 @@ def populateContext(request, context):
     context['authenticated'] = request.user.is_authenticated()
     if context['authenticated'] == True:
         context['username'] = request.user.username
+
+
+
+def profile(request):
+    return render(request,'profile.html')
