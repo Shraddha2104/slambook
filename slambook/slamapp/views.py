@@ -129,4 +129,4 @@ def populateContext(request, context):
 
 
 def profile(request):
-    return render(request,'profile.html')
+    return render(request,'index.html')
