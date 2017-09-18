@@ -8,6 +8,7 @@ import re
 import hashlib
 import ast
 import datetime
+
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -16,14 +17,20 @@ from slamapp.safe import mymail,mypassword
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from .models import UserProfile
+
 from django.http import HttpResponse
 
 # Create your views here.
 
 
-def signup(request):
+month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+
+def register(request):
     if request.method == 'POST':
         usermail = request.POST.get('usermail')
+        username = request.POST.get('username')
 
         hash = hashlib.sha1()
         now = datetime.datetime.now()
@@ -51,28 +58,64 @@ def signup(request):
         user = User.objects.create(username=usermail,password=tp)
         user.save()
 
-        return HttpResponse('User Has Been Sent Mail')
+        return render(request,'pages/sentack.html')
 
     else:
-        return render(request,'signup.html')
+        return render(request,'pages/register.html')
 
 
 
 def registration(request,p):
     if request.method=='POST':
         print (p)
-        upass=request.POST.get('upass')
-        upass1=request.POST.get('upass1')
-        # pic = request.FILES['pic']
-        print ("TRUE")
-        if upass==upass1:
-            up=User.objects.get(password=p)
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+
+        profile_pic = request.FILES['profile_pic']
+
+        day = request.POST.get('day')
+        month = request.POST.get('month')
+        year = request.POST.get('year')
+
+        gender = request.POST.get('gender')
+
+        city = request.POST.get('city')
+        country = request.POST.get('country')
+
+        upass = request.POST.get('upass')
+        upass1 = request.POST.get('upass1')
+
+        print (fname)
+        print(lname)
+        print(day)
+        print(month)
+        print(year)
+        print(gender)
+        print(city)
+        print(country)
+
+        if upass == upass1:
+            up = User.objects.get(password=p)
             print (up)
+
+            userprofile = UserProfile.objects.create(user=up,first_name=fname,last_name=lname,
+                profile_pic=profile_pic,day=day,month=month,year=year,gender=gender,
+                city=city,country=country)
+            userprofile.save()   
 
             up.set_password(upass)
             up.save()
 
-            return HttpResponse("DONE")
+            user = authenticate(username=up.username, password=upass)
+
+            if user.is_active:
+                auth_login(request, user)
+
+                return redirect('/profile/')
+
+
+            else:
+                return HttpResponse("Unexpected Error! Please Try Again.")
 
         else:
             return HttpResponse('Enter password correctly')
@@ -80,7 +123,8 @@ def registration(request,p):
     else:
         up=User.objects.get(password=p)
         print (up)
-        return render(request,'changepass.html',{ 'p':p })
+        return render(request,'pages/details.html',{ 'p':p, 'day':range(31),
+        'month':month,'year':range(1980,2017) })
 
 
 
@@ -92,11 +136,11 @@ def login_site(request):
         password = request.POST['password']
 
         user = authenticate(username=username, password=password)
-        print (user)
 
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
+                return redirect('/profile/')
 
             else:
                 context['error'] = 'Non active user'
@@ -107,7 +151,8 @@ def login_site(request):
 
     populateContext(request, context)
 
-    return render(request, 'login.html', context)
+    return render(request, 'pages/login.html', context)
+
 
 
 def logout_site(request):
@@ -118,7 +163,8 @@ def logout_site(request):
         context['error'] = 'Some error occured.'
 
     populateContext(request, context)
-    return render(request, 'login.html', context)
+    return render(request, 'pages/login.html', context)
+
 
 
 def populateContext(request, context):
@@ -128,5 +174,24 @@ def populateContext(request, context):
 
 
 
+
+
+
 def profile(request):
-    return render(request,'index.html')
+    if request.user.is_authenticated:
+        up = UserProfile.objects.get(user=request.user)
+        return render(request,'pages/profile.html',{ 'up':up })
+
+    else:
+        return redirect('/login/')
+
+
+
+def edit_profile(request):
+    if request.user.is_authenticated:
+        up = UserProfile.objects.get(user=request.user)
+        return render(request,'pages/edit-profile.html',{ 'up':up, 'day':range(31),
+        'month':month,'year':range(1980,2017) })
+
+    else:
+        return redirect('/login/')

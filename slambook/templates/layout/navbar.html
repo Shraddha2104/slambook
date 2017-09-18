@@ -1,0 +1,93 @@
+{% load static %}
+
+
+<style type="text/css">
+  @media screen and (min-width: 992px) {
+
+
+   .logo{
+      width: 60%;
+      height: 60%;
+      margin-left: -50%;
+   }
+
+}
+
+
+@media screen and (max-width: 992px) {
+  .logo{
+      width: 30%;
+      height: 30%;
+   }
+}
+</style>
+
+
+<!-- Header
+    ================================================= -->
+		<header id="header" class="lazy-load">
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <img src="{% static 'images/logo-nn.png' %}" class="logo" alt="logo" />
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right main-menu" style="margin-top: 0.4%;">
+              
+              {% if user.is_authenticated %}
+                <li class="dropdown"><img src="{{ up.profile_pic.url }}" width="30px" height="30px" style="margin-top: 15px;border-radius: 50%;" /></li>
+                <li class="dropdown"><a href="#">{{ up.first_name }}</a></li>
+              {% endif %}
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Newsfeed <span><img src="{% static 'images/down-arrow.png' %}" alt="" /></span></a>
+                  <ul class="dropdown-menu newsfeed-home">
+                    <li><a href="newsfeed.html">Newsfeed</a></li>
+                    <li><a href="newsfeed-people-nearby.html">Poeple Nearly</a></li>
+                    <li><a href="newsfeed-friends.html">My friends</a></li>
+                    <li><a href="newsfeed-messages.html">Chatroom</a></li>
+                    <li><a href="newsfeed-images.html">Images</a></li>
+                    <li><a href="newsfeed-videos.html">Videos</a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Timeline <span><img src="{% static 'images/down-arrow.png' %}" alt="" /></span></a>
+                <ul class="dropdown-menu login">
+                  <li><a href="timeline.html">Timeline</a></li>
+                  <li><a href="timeline-about.html">Timeline About</a></li>
+                  <li><a href="timeline-album.html">Timeline Album</a></li>
+                  <li><a href="timeline-friends.html">Timeline Friends</a></li>
+                  <li><a href="edit-profile-basic.html">Edit: Basic Info</a></li>
+                  <li><a href="edit-profile-work-edu.html">Edit: Work</a></li>
+                  <li><a href="edit-profile-interests.html">Edit: Interests</a></li>
+                  <li><a href="edit-profile-settings.html">Account Settings</a></li>
+                  <li><a href="edit-profile-password.html">Change Password</a></li>
+                </ul>
+              </li>
+
+              {% if user.is_authenticated %}
+              <li class="dropdown"><a href="/edit-profile/">Edit Profile</a></li>
+              {% endif %}
+
+              {% if user.is_authenticated %}
+              <li class="dropdown"><a href="/logout/">Logout</a></li>
+              {% endif %}
+
+              
+
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav>
+    </header>
+    <!--Header End-->

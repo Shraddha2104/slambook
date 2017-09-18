@@ -150,7 +150,11 @@ PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'slambook/staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR,'MEDIA')
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATICFILES_LOCATION = 'oc-static'
+MEDIAFILES_LOCATION = 'oc-media'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")

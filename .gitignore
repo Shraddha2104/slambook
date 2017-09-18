@@ -104,5 +104,8 @@ ENV/
 slamapp/migrations
 *.pyc
 *.xml
+MEDIA
+slambook/staticfiles
+staticfiles
 
 

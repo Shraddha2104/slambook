@@ -22,12 +22,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^signup/', views.signup),
+    url(r'^register/', views.register),
     url(r'^(?P<p>[\w\-\_]+)/registration/$',views.registration),
     url(r'^login/', views.login_site),
     url(r'^logout/', views.logout_site),
 
 
     url(r'^profile/', views.profile),
+    url(r'^edit-profile/', views.edit_profile),    
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

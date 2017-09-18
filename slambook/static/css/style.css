@@ -631,7 +631,7 @@ textarea{
   ==================================================*/
 
 .img-divider{
-  background: url("../images/bg/bg-2.jpg") no-repeat;
+  background: url("../images/cpslambook.jpg") no-repeat;
   background-size: cover;
   text-align: center;
   min-height: 460px;
@@ -2415,3 +2415,7 @@ ul.contact li i{
   top: 50%;
   transform: translateY(-50%);
 }
+
+
+
+
