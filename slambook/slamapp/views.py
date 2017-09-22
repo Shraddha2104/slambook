@@ -17,11 +17,13 @@ from slamapp.safe import mymail,mypassword
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from .models import UserProfile
+from .models import UserProfile, Set
 
 from django.http import HttpResponse
 
+# comment this line
 import pandas as pd
+
 import random
 
 # Create your views here.
@@ -202,7 +204,7 @@ def edit_profile(request):
 
 
 
-
+# comment this function
 
 def movie_recommendation(request):
     if request.method == 'POST':
