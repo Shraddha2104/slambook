@@ -29,6 +29,8 @@ urlpatterns = [
 
 
     url(r'^profile/', views.profile),
-    url(r'^edit-profile/', views.edit_profile),    
+    url(r'^edit-profile/', views.edit_profile),
+
+    url(r'^movie-recommendation/', views.movie_recommendation),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
