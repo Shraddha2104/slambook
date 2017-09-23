@@ -48,7 +48,7 @@ def register(request):
         msg['Subject'] = 'Confirmational Email'
         domain = request.get_host()
         scheme = request.is_secure() and "https" or "http"
-        body = "Please Click On The Link To complete registration: {0}://{1}/{2}/registration".format(scheme, domain, tp)
+        body = "Please Click On The Link To Complete Registration: {0}://{1}/{2}/registration".format(scheme, domain, tp)
         part1 = MIMEText(body, 'plain')
         msg.attach(MIMEText(body, 'plain'))
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -211,8 +211,7 @@ def movie_recommendation(request):
 
             rand_item_list = request.session['rand_item_list']
 
-            user = User.objects.get(username='thecoders97@gmail.com')
-            print (user.id)
+            user = UserProfile.objects.get(user=request.user)
 
             df = open('slamapp/movie_data/u.data','a')
 
