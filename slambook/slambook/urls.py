@@ -13,22 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url,include
 from django.contrib import admin
-from slamapp import views
+
 from django.conf import settings
 from django.conf.urls.static import static
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^register/', views.register),
-    url(r'^(?P<p>[\w\-\_]+)/registration/$',views.registration),
-    url(r'^login/', views.login_site),
-    url(r'^logout/', views.logout_site),
-
-
-    url(r'^profile/', views.profile),
-    url(r'^edit-profile/', views.edit_profile),    
-
+    url(r'^(?P<p>[\w\-\_]+)/registration/$',include('slamapp.urls')),
+    url(r'^login/',include('slamapp.urls')),
+    url(r'^logout/', include('slamapp.urls')),
+    url(r'^fillslam/',include('slamapp.urls')),
+    url(r'^register/', include('slamapp.urls'), name='register'),
+    url(r'^profile/', include('slamapp.urls')),
+    url(r'^edit-profile/',include('slamapp.urls')),
+    url(r'^create-profile/', include('slamapp.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

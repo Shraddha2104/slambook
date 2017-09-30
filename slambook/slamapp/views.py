@@ -2,7 +2,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render,redirect
+from django.views import View
 
+from .models import Post
+from .forms import  CreateProfileForm
 import smtplib
 import re
 import hashlib
@@ -22,13 +25,13 @@ from .models import UserProfile, Set
 from django.http import HttpResponse
 
 # comment this line
-import pandas as pd
+#import pandas as pd
 
 import random
 
 # Create your views here.
 
-
+IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
 
@@ -193,8 +196,11 @@ def profile(request):
 
 
 def edit_profile(request):
+    print("hello")
     if request.user.is_authenticated:
+        print("in if")
         up = UserProfile.objects.get(user=request.user)
+        print(up)
         return render(request,'pages/edit-profile.html',{ 'up':up, 'day':range(31),
         'month':month,'year':range(1980,2017) })
 
@@ -203,110 +209,158 @@ def edit_profile(request):
 
 
 
+class create_profile(View):
+    active = 'upload'
+    form_class = CreateProfileForm
+    template_name = 'pages/register_form.html'
+
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        print(form.is_valid())
+        if form.is_valid():
+            up = UserProfile()
+            up.user =  User.objects.get(username=request.user.username)
+            up.first_name = form.cleaned_data['first_name']
+            up.last_name = form.cleaned_data['last_name']
+            up.day = form.cleaned_data['day']
+            up.month = form.cleaned_data['month']
+            up.year = form.cleaned_data['year']
+            up.city = form.cleaned_data['city']
+            up.gender = form.cleaned_data['gender']
+            up.country = form.cleaned_data['country']
+            #up.created_on = localtime(now())
+
+            up.profile_pic = request.FILES['profile_pic']
+            file_type = up.profile_pic.url.split('.')[-1]
+            file_type = file_type.lower()
+            if file_type not in IMAGE_FILE_TYPES:
+                context = {
+
+                    'form': form,
+                    'error_message': 'Image file must be PNG, JPG, or JPEG',
+                }
+                return render(request, self.template_name, context)
+
+            up.save()
+            return redirect('pages/timeline.html')
+        return render(request, self.template_name, {'form': form})
+
 
 # comment this function
 
-def movie_recommendation(request):
-    if request.method == 'POST':
+# def movie_recommendation(request):
+#     if request.method == 'POST':
+#
+#         rand_item_list = request.session['rand_item_list']
+#
+#         user = User.objects.get(username='thecoders97@gmail.com')
+#         print (user.id)
+#
+#         i = 1
+#         for r in rand_item_list:
+#
+#             r = request.POST.get(i)
+#             print (i)
+#             print (r)
+#
+#             i += 1
+#
+#         # df = open('movie_data/u.data','a')
+#         # feed =  1000 + user.id +'\t' + rand_item.split()[0] + '\t' + rating + '\t' + '881250949'
+#         # df.write(feed+'\n')
+#         # df.close()
+#
+#
+#         print (rand_item_list)
+#
+#         print ("rand_list")
+#
+#         r_cols = ['user_id', 'movie_id', 'rating']
+#         ratings = pd.read_csv('slamapp/movie_data/u.data', sep='\t', names=r_cols,
+#             encoding='latin-1', usecols=range(3))
+#
+#         m_cols = ['movie_id', 'title']
+#         movies = pd.read_csv('slamapp/movie_data/u.item', sep='|', names=m_cols,
+#             encoding='latin-1', usecols=range(2))
+#
+#         ratings = pd.merge(movies, ratings)
+#
+#         userRatings = ratings.pivot_table(index=['user_id'],columns=['title'],values=['rating'])
+#
+#         corrMatrix = userRatings.corr(method='pearson', min_periods=60)
+#
+#         myRatings = userRatings.loc[0].dropna()
+#
+#         # print (myRatings.index)
+#
+#         # print(myRatings)
+#
+#         simCandidates = pd.Series()
+#
+#         for i in range(0, len(myRatings.index)):
+#             sims = corrMatrix[myRatings.index[i]].dropna()
+#
+#             sims = sims.map(lambda x: x * myRatings[i])
+#
+#             simCandidates = simCandidates.append(sims)
+#
+#
+#         simCandidates = simCandidates.groupby( simCandidates.index ).sum()
+#
+#         simCandidates.sort_values(inplace= True, ascending= False)
+#
+#         final_list = list(simCandidates.head(10).index)
+#
+#         final_rating = list(simCandidates.head(10))
+#
+#
+#         print (final_list)
+#         print (final_rating)
+#
+#         return render(request,'pages/movie-recommendation.html',{ 'fl':final_list, 'fr':final_rating })
+#
+#
+#     else:
+#
+#         movies_list = []
+#         rand_item_list = []
+#
+#         df = open('slamapp/movie_data/choices','r')
+#         for line in df:
+#             movies_list.append(line)
+#
+#         df.close()
+#
+#         i = 8
+#
+#         context = []
+#
+#         while i > 0:
+#
+#             rand_item = movies_list[random.randrange(len(movies_list))]
+#
+#             if rand_item not in rand_item_list:
+#
+#                 rand_item_list.append(rand_item)
+#
+#                 context.append(rand_item.split('\t',1)[1])
+#
+#                 i = i - 1
+#
+#         print (rand_item_list)
+#
+#         request.session['rand_item_list'] = rand_item_list
+#
+#         return render(request,'pages/movie-reviews.html',{ 'context':context, 'r_list':rand_item_list })
+#
 
-        rand_item_list = request.session['rand_item_list']
 
-        user = User.objects.get(username='thecoders97@gmail.com')
-        print (user.id)
-
-        i = 1
-        for r in rand_item_list:
-            
-            r = request.POST.get(i)
-            print (i)
-            print (r)
-
-            i += 1
-
-        # df = open('movie_data/u.data','a')
-        # feed =  1000 + user.id +'\t' + rand_item.split()[0] + '\t' + rating + '\t' + '881250949'
-        # df.write(feed+'\n')
-        # df.close()
-        
-
-        print (rand_item_list)
-
-        print ("rand_list")
-
-        r_cols = ['user_id', 'movie_id', 'rating']
-        ratings = pd.read_csv('slamapp/movie_data/u.data', sep='\t', names=r_cols, 
-            encoding='latin-1', usecols=range(3))
-
-        m_cols = ['movie_id', 'title']
-        movies = pd.read_csv('slamapp/movie_data/u.item', sep='|', names=m_cols, 
-            encoding='latin-1', usecols=range(2))
-
-        ratings = pd.merge(movies, ratings)
-
-        userRatings = ratings.pivot_table(index=['user_id'],columns=['title'],values=['rating'])
-
-        corrMatrix = userRatings.corr(method='pearson', min_periods=60)
-
-        myRatings = userRatings.loc[0].dropna()
-
-        # print (myRatings.index)
-
-        # print(myRatings)
-
-        simCandidates = pd.Series()
-
-        for i in range(0, len(myRatings.index)):
-            sims = corrMatrix[myRatings.index[i]].dropna()
-
-            sims = sims.map(lambda x: x * myRatings[i])
-
-            simCandidates = simCandidates.append(sims)
+def questions(request):
+    return render('questionarre.html')
 
 
-        simCandidates = simCandidates.groupby( simCandidates.index ).sum()
-
-        simCandidates.sort_values(inplace= True, ascending= False)
-
-        final_list = list(simCandidates.head(10).index)
-
-        final_rating = list(simCandidates.head(10))
-
-
-        print (final_list)
-        print (final_rating)
-
-        return render(request,'pages/movie-recommendation.html',{ 'fl':final_list, 'fr':final_rating })
-
-
-    else:
-
-        movies_list = []
-        rand_item_list = []
-
-        df = open('slamapp/movie_data/choices','r')
-        for line in df:
-            movies_list.append(line)
-
-        df.close()
-
-        i = 8
-        
-        context = []
-
-        while i > 0:
-
-            rand_item = movies_list[random.randrange(len(movies_list))]
-
-            if rand_item not in rand_item_list:
-
-                rand_item_list.append(rand_item)
-
-                context.append(rand_item.split('\t',1)[1])
-
-                i = i - 1
-
-        print (rand_item_list)
-
-        request.session['rand_item_list'] = rand_item_list
-
-        return render(request,'pages/movie-reviews.html',{ 'context':context, 'r_list':rand_item_list })

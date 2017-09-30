@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+from django.utils import timezone
 
 
 class UserProfile(models.Model):
@@ -80,3 +81,58 @@ class Set(models.Model):
 
 	def __str__(self):
 		return '%s %s %s %s' % (self.sender.username, self.filler, self.status, self.date)
+
+class Question(models.Model):
+    user = models.ForeignKey(User)
+    qus = models.CharField(max_length=256, verbose_name="question")
+    ans = models.TextField(blank=True)
+    slug = models.SlugField(unique=True, max_length=256)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.qus
+
+
+    class Meta:
+        ordering = ['-updated', '-created']
+
+
+class Answer(models.Model):
+    user = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
+    ans = models.TextField(verbose_name="answer")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.question.qus
+
+    class Meta:
+        ordering = ['-updated', '-created']
+
+class Post(models.Model):
+	user = models.ForeignKey(User)
+	body = models.TextField()
+	created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+
+# class Comment(models.Model):
+#     post = models.ForeignKey(Post, related_name='comments')
+#     author = models.ForeignKey(UserProfile, related_name='blog_posts')
+#     email = models.EmailField()
+#     body = models.TextField()
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#     active = models.BooleanField(default=True)
+
+    # class Meta:
+    #     ordering = ('created',)
+    #
+    # def __str__(self):
+    #     return 'Comment by {} on {}'.format(self.author, self.post)
+
+class FriendList(models.Model):
+	fusername=models.ForeignKey(UserProfile,related_name='%(class)s_requests_created')
+	my_user_name=models.ForeignKey(User,related_name='%(class)s_requests_created')
+
