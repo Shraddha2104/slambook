@@ -33,4 +33,8 @@ urlpatterns = [
 
     url(r'^movie-recommendation/', views.movie_recommendation),
 
+
+    url(r'^create-questions/', views.create_questions),
+    url(r'^fill-slambook/(?P<p>[\w\-\_]+)/$',views.fill_slambook),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

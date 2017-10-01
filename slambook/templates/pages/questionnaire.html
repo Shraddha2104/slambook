@@ -1,0 +1,87 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+
+<body>
+
+
+  <script>
+    function addinputFields(){
+
+      var input = document.createElement("input");
+      input.type = "text";
+      input.name = "qs[]";
+
+      addedquestions.appendChild(input);
+      addedquestions.appendChild(document.createElement("br"));
+
+    }
+  </script>
+
+
+    <!-- Top Banner
+      ================================================= -->
+      <section id="banner">
+        <div class="container">
+
+        <!-- Sign Up Form
+          ================================================= -->
+          <div class="col-md-12" style="background: linear-gradient(to bottom, rgba(43,57,144,.8), rgba(39,170,225,1) 65%);padding: 2% 2% 2% 2%;">
+            <div class="line-divider"></div>
+
+            <div class="form-wrapper">
+
+              <h2 class="signup-text" style="color: #27BCE4;">Send Request To Fill In Your SlamBook</h2>
+
+              <form method="POST" action="/create-questions/">
+
+                {% csrf_token %}
+                <fieldset class="form-group">
+                  <input type="text" class="form-control" name="filler" placeholder="Your Friends Email ID">
+                </fieldset>
+
+                <h3 class="signup-text" style="color: #27BCE4;">Add Custom Questions</h3>
+
+
+
+                <div id="addedquestions">
+
+                </div>
+
+                <a href="#" onclick="addinputFields();">Add Question</a>
+
+                <button class="btn-secondary">Send Request</button>
+
+              </form>
+
+            </div>
+
+
+          </div><!-- Sign Up Form End -->
+
+          <svg class="arrows hidden-xs hidden-sm">
+            <path class="a1" d="M0 0 L30 32 L60 0"></path>
+            <path class="a2" d="M0 20 L30 52 L60 20"></path>
+            <path class="a3" d="M0 40 L30 72 L60 40"></path>
+          </svg>
+
+        </div>
+      </section>
+
+
+
+    <!-- Image Divider
+      ================================================= -->
+      <div class="img-divider hidden-sm hidden-xs"></div>
+
+
+
+    </body>
+
+
+
+    {% endblock %}
+

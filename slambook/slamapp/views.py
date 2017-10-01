@@ -17,7 +17,7 @@ from slamapp.safe import mymail,mypassword
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from .models import UserProfile
+from .models import UserProfile, Set, Set_Content
 
 from django.http import HttpResponse
 
@@ -206,6 +206,7 @@ def edit_profile(request):
 
 def movie_recommendation(request):
     if request.user.is_authenticated:
+        up = UserProfile.objects.get(user=request.user)
 
         if request.method == 'POST':
 
@@ -276,7 +277,8 @@ def movie_recommendation(request):
             print (final_list)
             print (final_rating)
 
-            return render(request,'pages/movie-recommendation.html',{ 'fl':final_list, 'fr':final_rating })
+            return render(request,'pages/movie-recommendation.html',{ 'fl':final_list, 'fr':final_rating,
+            'up':up })
 
 
         else:
@@ -310,8 +312,94 @@ def movie_recommendation(request):
 
             request.session['rand_item_list'] = rand_item_list
 
-            return render(request,'pages/movie-reviews.html',{ 'context':context })
+            return render(request,'pages/movie-reviews.html',{ 'context':context, 'up':up })
         
 
     else:
         return redirect('/login/')
+
+
+
+
+def create_questions(request):
+    if request.user.is_authenticated:
+        up = UserProfile.objects.get(user=request.user)
+
+        questions = []
+        if request.method == 'POST':
+            filler = request.POST.get('filler')
+            questions = request.POST.getlist('qs[]')
+
+            print (filler)
+            print (questions)
+
+
+            hash = hashlib.sha1()
+            now = datetime.datetime.now()
+            hash.update(str(now).encode('utf-8') + filler.encode('utf-8') + 'kuttu'.encode('utf-8'))
+            fillerkey = hash.hexdigest()
+
+
+            set_main = Set.objects.create(sender=request.user,filler=filler,filler_key=fillerkey)
+
+            for qs in questions:
+                set_content = Set_Content.objects.create(set_main=set_main,question=qs)
+
+
+
+            fromaddr = mymail
+            toaddr = filler
+            msg = MIMEMultipart()
+            msg['From'] = fromaddr
+            msg['To'] = toaddr
+            
+
+            domain = request.get_host()
+            scheme = request.is_secure() and "https" or "http"
+
+            msg['Subject'] = "Your Friend {0} Requests You To Fill In His SlamBook".format(up.first_name)
+
+            domain = request.get_host()
+            scheme = request.is_secure() and "https" or "http"
+
+            body = "Use The Button Below"
+            part1 = MIMEText(body, 'plain')
+            msg.attach(part1)
+
+            
+            filling_link = "{0}://{1}/fill-slambook/{2}".format(scheme,domain,fillerkey)
+            part3 = MIMEText(u'<center>Please click <a href="'+filling_link+'" style="font-size:16px;">here to complete your subscription</a> to our newsletter</center>','html')
+            msg.attach(part3)
+
+
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(mymail, mypassword)
+            text = msg.as_string()
+            server.sendmail(fromaddr, toaddr, text)
+            server.quit()
+
+
+            return redirect('/profile/')
+
+
+        else:
+            return render(request, 'pages/questionnaire.html',{ 'up':up })
+
+
+
+
+    else:
+        return redirect('/login/')
+
+
+
+def fill_slambook(request,p):
+    if request.method=='POST':
+        pass
+
+
+    else:
+        s = Set.objects.get(filler_key=p)
+        print (s)
+        return render(request,'pages/fill-slambook.html')
