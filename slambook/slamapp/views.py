@@ -21,7 +21,7 @@ from .models import UserProfile, Set, Set_Content
 
 from django.http import HttpResponse
 
-import pandas as pd
+#import pandas as pd
 import random
 
 # Create your views here.
