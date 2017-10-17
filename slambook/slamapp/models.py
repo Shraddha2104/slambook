@@ -23,6 +23,8 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=20,blank=True)
     country = models.CharField(max_length=20,blank=True)
 
+    about = models.CharField(max_length=2000,blank=True)
+
     class Meta:
         verbose_name = "User Profile"
 

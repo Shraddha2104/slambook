@@ -53,7 +53,7 @@
 
             {% if user.is_authenticated %}
             <li class="dropdown"><img src="{{ up.profile_pic.url }}" width="30px" height="30px" style="margin-top: 15px;border-radius: 50%;" /></li>
-            <li class="dropdown"><a href="#">{{ up.first_name }}</a></li>
+            <li class="dropdown"><a href="/profile/">{{ up.first_name }}</a></li>
             {% endif %}
 
             {% if user.is_authenticated %}
@@ -62,6 +62,10 @@
 
             {% if user.is_authenticated %}
             <li class="dropdown"><a href="/movie-recommendation/">Movie Recommendation</a></li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <li class="dropdown"><a href="/pages/">Slambook</a></li>
             {% endif %}
 
             {% if user.is_authenticated %}

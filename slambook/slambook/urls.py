@@ -30,6 +30,7 @@ urlpatterns = [
 
     url(r'^profile/', views.profile),
     url(r'^edit-profile/', views.edit_profile),
+    url(r'^change-password/', views.change_password),
 
     url(r'^movie-recommendation/', views.movie_recommendation),
 

@@ -7,298 +7,87 @@
 
 <body>
 
-<style>
-  a {
-    color: white;
-}
+    <script>
+        function addinputFields(){
 
-</style>
+          var input = document.createElement("input");
+          input.type = "text";
+          input.name = "qs[]";
 
-<script>
-    function addinputFields(){
-
-      var input = document.createElement("input");
-      input.type = "text";
-      input.name = "qs[]";
-
-      input.setAttribute("placeholder", "Enter your question here");
-      addedquestions.appendChild(input);
-      addedquestions.appendChild(document.createElement("br"));
-      addedquestions.appendChild(document.createElement("br"));
-
-
-
-    }
-$document.ready(function(){
-var i=1;
-$('#add').click(function(){
-    i++;
+          input.setAttribute("placeholder", "Enter your question here");
+          addedquestions.appendChild(input);
+          addedquestions.appendChild(document.createElement("br"));
+          addedquestions.appendChild(document.createElement("br"));
+      }
+      $document.ready(function(){
+        var i=1;
+        $('#add').click(function(){
+            i++;
+        });
     });
-{);
 
 </script>
 
+<div class="form-wrapper">
 
-<!--&lt;!&ndash; Top Banner-->
-<!--================================================= &ndash;&gt;-->
-<!--<section id="banner">-->
-<!--<div class="container">-->
-
-<!--&lt;!&ndash; Sign Up Form-->
-<!--================================================= &ndash;&gt;-->
-<!--<div class="col-md-12" style="background: linear-gradient(to bottom, rgba(43,57,144,.8), rgba(39,170,225,1) 65%);padding: 2% 2% 2% 2%;">-->
-<!--<div class="line-divider"></div>-->
-
-<!--<div class="form-wrapper">-->
-
-<!--<h2 class="signup-text" style="color: #27BCE4;">Send Request To Fill In Your SlamBook</h2>-->
-
-<!--<form method="POST" action="/create-questions/">-->
+    <h2 class="signup-text" style="color: #27BCE4;">Send Request To Fill In Your SlamBook</h2>
 
 
-<!--</form>-->
+    <form method="POST" action="/create-questions/" >
 
-<!--<form method="POST" action="/create-questions/" >-->
-<!--<div class="signup-text">-->
-<!--<p>Pour down the fun stuff...</p>-->
-<!--<div class="form-group">-->
-<!--<label for="past moments">Give your three best past moments that you can’t forget in our friendship?</label>-->
-<!--<textarea class="form-control" id="Textarea1" rows="3"></textarea>-->
-<!--</div>-->
-<!--<div class="form-group">-->
-<!--<label for="past moments">Tell me about three funniest friends you know in your life?</label>-->
-<!--<textarea class="form-control" id="Textarea2" rows="3"></textarea>-->
-<!--</div>-->
+        {% csrf_token %}
 
-<!--<p>Penning down your thoughts...</p>-->
-<!--<div class="form-group">-->
-<!--<label for="past moments">>Describe in one word, LIFE is</label>-->
-<!--<textarea class="form-control" id="Textarea3" rows="3"></textarea>-->
-<!--</div>-->
-
-<!--<div class="form-group">-->
-<!--<label for="past moments">What was your first impression about me?</label>-->
-<!--<textarea class="form-control" id="Textarea3" rows="3"></textarea>-->
-<!--</div>-->
-<!--<p> </p>-->
-<!--<p>Juicy secrets...</p>-->
-<!--<p>Define Love and Friendship</p>-->
-<!--<p>What are your expectations of me?</p>-->
-<!--<p>Have you ever lied to me and if so, why?</p>-->
-<!--</div>-->
-
-
-<!--<div id="addedquestions">-->
-
-<!--</div>-->
-<!--<div class="btn-secondary">-->
-<!--<a href="#" onclick="addinputFields();" >Add your own questions</a>-->
-<!--</div>-->
-<!--</form>-->
-
-
-<!--</div>-->
-
-
-<!--</div>&lt;!&ndash; Sign Up Form End &ndash;&gt;-->
-
-<!--<svg class="arrows hidden-xs hidden-sm">-->
-<!--<path class="a1" d="M0 0 L30 32 L60 0"></path>-->
-<!--<path class="a2" d="M0 20 L30 52 L60 20"></path>-->
-<!--<path class="a3" d="M0 40 L30 72 L60 40"></path>-->
-<!--</svg>-->
-
-<!--</div>-->
-<!--</section>-->
-
-
-<!--&lt;!&ndash;&lt;!&ndash; Image Divider&ndash;&gt;-->
-<!--&lt;!&ndash;================================================= &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;<div class="img-divider hidden-sm hidden-xs"></div>&ndash;&gt;-->
-<!--<div class="container">-->
-<!--<div id="page-contents">-->
-<!--<div class="row">-->
-<!--<div class="edit-profile-container">-->
-<!--<div class="block-title">-->
-<!--<h4 class="grey"><i class="icon ion-android-checkmark-circle"></i>Fill my slambook</h4>-->
-<!--<div class="line"></div>-->
-<!--</div>-->
-<!--<div class="edit-block">-->
-<!--<form name="basic-info" id="basic-info" class="form-inline">-->
-
-
-<!--<div class="form-group gender">-->
-<!--<span class="custom-label"><strong>I am a: </strong></span>-->
-<!--<label class="radio-inline">-->
-<!--<input type="radio" name="optradio" checked>Male-->
-<!--</label>-->
-<!--<label class="radio-inline">-->
-<!--<input type="radio" name="optradio">Female-->
-<!--</label>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="form-group col-xs-6">-->
-<!--<label for="city"> My city</label>-->
-<!--<input id="city" class="form-control input-group-lg" type="text" name="city" title="Enter city" placeholder="Your city" value="{{up.city}}"/>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div class="form-group col-xs-12">-->
-<!--<label for="my-info">About me</label>-->
-<!--<textarea id="my-info" name="information" class="form-control" placeholder="Some texts about me" rows="4" cols="400"></textarea>-->
-<!--</div>-->
-<!--</div>-->
-<!--<button class="btn btn-primary">Save Changes</button>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<div class="container">
-
-    <!-- Timeline
-    ================================================= -->
-    <div class="timeline">
-
-        <div id="page-contents">
-            <div class="row">
-
-                <div class="col-md-7">
-
-                    <!-- Basic Information
-                    ================================================= -->
-                    <div class="edit-profile-container">
-                        <div class="block-title">
-                            <h4 class="grey"><i class="icon ion-android-checkmark-circle"></i>Send Request To Fill In
-                                Your SlamBook</h4>
-                            <div class="line"></div>
-                        </div>
-                        <div class="edit-block">
-                            <form method="POST" action="/create-questions/">
-
-                                {% csrf_token %}
-                                <fieldset class="form-group">
-                                    <input type="text" class="form-control" name="filler"
-                                           placeholder="Your Friends Email ID">
-                                </fieldset>
-
-                                <div class="block-title">
-                                    <h4 class="grey"><i class="icon ion-android-checkmark-circle"></i>Fill My
-                                        Slambook...</h4>
-                                    <div class="line"></div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="Give your three best past moments in our friendship?">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="Tell me about three funniest friends you know in your life? ">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="Describe in one word, LIFE is">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="What was your first impression about me?">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="Define Love and Friendship">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="What are your expectations of me?">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-
-                                        <input type="text" class="form-control" value="Have you ever lied to me and if so, why?">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-                                        <div id="addedquestions" class="form-control"></div>
-                                    </div>
-                                </div>
-                                <br>
-                                <br>
-
-                                <button class="btn btn-primary" onclick="addinputFields();" id="add">Add your questions</button>
-                                <br><br>
-
-
-                                <button class="btn btn-primary">Send Request</button>
-                                <br><br>
-
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 static">
-
-                    <!--Sticky Timeline Activity Sidebar-->
-                    <!--<div id="sticky-sidebar">-->
-
-                        <!--<div class="feed-item">-->
-                            <!--<div class="live-activity">-->
-                                <!--<p>It is one of the blessings of old friends that you can afford to be stupid with-->
-                                    <!--them</p>-->
-
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="feed-item">-->
-                            <!--<div class="live-activity">-->
-                                <!--<p>FriendShip is The Most Precious Treasure One Can Have In Life.</p>-->
-
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="feed-item">-->
-                            <!--<div class="live-activity">-->
-                                <!--<p>Friendship is the hardest thing in the world to explain. It’s not something you learn-->
-                                    <!--in school. But if you haven’t learned the meaning of friendship, you really haven’t-->
-                                    <!--learned anything</p>-->
-
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="feed-item">-->
-                            <!--<div class="live-activity">-->
-                                <!--<p>Never let your best friends get lonely... keep disturbing them. </p>-->
-
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="feed-item">-->
-                            <!--<div class="live-activity">-->
-                                <!--<p>The strong bond of friendship is not always a balanced equation; friendship is not-->
-                                    <!--always about giving and taking in equal shares. Instead, friendship is grounded in a-->
-                                    <!--feeling that you know exactly who will be there for you when you need something, no-->
-                                    <!--matter what or when.</p>-->
-
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                </div>
-            </div>
+        <div class="form-group">
+            <input class="form-control" name="filler" placeholder="Recipients Name">
         </div>
-    </div>
+
+        <div class="signup-text">
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="Give your three best past moments that you can’t forget in our friendship?"></input>
+            </div>
+            
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="Tell me about three funniest friends you know in your life?"></input>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="Describe in one word, LIFE is" ></input>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="What was your first impression about me?" ></input>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="Define Love and Friendship" ></input>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="What are your expectations of me?" ></input>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" name="qs[]" value="Have you ever lied to me and if so, why?" ></input>
+            </div>
+
+        </div>
+
+
+        <div id="addedquestions">
+
+        </div>
+
+        <div class="btn-secondary">
+            <div onclick="addinputFields();" >Add your own questions</div>
+        </div>
+
+        <button class="btn" type="submit">Send Request</button>
+
+    </form>
+
+
 </div>
 
 
+</body>
 {% endblock %}
-
